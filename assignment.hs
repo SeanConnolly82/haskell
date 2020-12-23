@@ -17,7 +17,6 @@ float_length_a_z :: String -> Float
 float_length_a_z str = sum [ 1 | character <- str, elem (toLower character) ['a'..'z']]
 
 -- Q3
-
 type CityId = Int
 type CityName = String
 type CountryName = String
@@ -56,7 +55,6 @@ eucl_dist as bs = sqrt(sum[(a - b) * (a - b) | (a,b) <- zip as bs])
 
 -- Q5
 -- see get_lang.hs for command line version
-
 get_lang :: String -> IO ()
 get_lang f = do
     contents <- readFile f
@@ -76,8 +74,30 @@ eng_freq = [8.12,1.49,2.71,4.32,12.02,2.30,2.03,5.92,7.31,0.10,0.69,3.98,2.61,6.
 pt_freq :: [Float]
 pt_freq = [12.21, 1.01, 3.35, 4.21, 13.19, 1.07, 1.08, 1.22, 5.49, 0.30, 0.13, 3.00, 5.07, 5.02, 10.22, 3.01, 1.10, 6.73, 7.35, 5.07, 4.46, 1.72, 0.05, 0.28, 0.04, 0.45]
 
+-- Q6
+ 
+-- Q7
 
+-- Q8
 
+-- Q9
+math_series :: (Float -> Float) -> Int -> Float
+math_series f n 
+    | n >= 0 = f (fromIntegral n)
+    | otherwise = 0
 
+pi_series :: Float -> Float
+pi_series 0 = 0
+pi_series k = ((-1) ** (k + 1)) * (4 / ((2 * k) - 1)) + pi_series (k - 1)
+
+-- Q10
+-- Call the function and pass in f
+integral :: (Float -> Float) -> Float -> Float -> Int -> Float
+integral func x1 x2 n 
+    | n > 0 = sum [func x * ((x2 - x1) / fromIntegral n) | x <- [x1,x1 + ((x2 - x1) / fromIntegral n)..x2], x < x2]
+    | otherwise = 0
+
+f :: Float -> Float
+f x = 0.5 * x
 
 
