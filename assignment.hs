@@ -75,10 +75,35 @@ pt_freq :: [Float]
 pt_freq = [12.21, 1.01, 3.35, 4.21, 13.19, 1.07, 1.08, 1.22, 5.49, 0.30, 0.13, 3.00, 5.07, 5.02, 10.22, 3.01, 1.10, 6.73, 7.35, 5.07, 4.46, 1.72, 0.05, 0.28, 0.04, 0.45]
 
 -- Q6
+-- Use 8 to decrypt
+c_decrypt :: Int -> IO ()
+c_decrypt n = do
+   contents <- readFile "italy.txt.chp"  
+   print (decode n contents)
+
+let2int :: Char -> Int
+let2int c = ord c - ord 'a'
+
+int2let :: Int -> Char
+int2let n = chr(ord 'a' + n)
+
+shift :: Int -> Char -> Char
+shift n c
+ | isLower c = int2let ((let2int c + n) `mod` 26)
+ | otherwise = c
+ 
+decode :: Int -> String -> String
+decode n s = [shift (26 - n) c | c <- s]
  
 -- Q7
 
 -- Q8
+-- Test with n = 1000 (n is the intervals between 0 and 1)
+area_circle :: Int -> Float
+area_circle n = sum [ 1 | (x,y) <- data_points (fromIntegral n), (x*x)+(y*y) <= 1] / (fromIntegral (n*n))
+
+data_points :: Float -> [(Float, Float)]
+data_points n = [ (x, y) | x <- [0,0+(1/n)..1], y <- [0,0+(1/n)..1]]
 
 -- Q9
 math_series :: (Float -> Float) -> Int -> Float
