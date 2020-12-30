@@ -97,6 +97,7 @@ decode :: Int -> String -> String
 decode n s = [shift (26 - n) c | c <- s]
  
 -- Q7
+-- Part 1
 get_dict :: IO ()
 get_dict = do
     pride <- readFile "pride.txt"
@@ -104,6 +105,7 @@ get_dict = do
     dorian <- readFile "dorian.txt"
     writeFile "dict.txt" (unwords (toList (fromList (words pride ++ words ulysses ++ words dorian))))
 
+-- Part 2
 guess_index :: String -> IO ()
 guess_index f = do
     encrypted <- readFile f
