@@ -1,4 +1,5 @@
 import Data.Char
+import Data.Set
 import System.IO
 import System.Environment
 
@@ -76,10 +77,10 @@ pt_freq = [12.21, 1.01, 3.35, 4.21, 13.19, 1.07, 1.08, 1.22, 5.49, 0.30, 0.13, 3
 
 -- Q6
 -- Use 8 to decrypt
-c_decrypt :: Int -> IO ()
-c_decrypt n = do
-   contents <- readFile "italy.txt.chp"  
-   print (decode n contents)
+c_decrypt :: String -> Int -> IO String
+c_decrypt f n = do
+   contents <- readFile f
+   return (decode n contents)
 
 let2int :: Char -> Int
 let2int c = ord c - ord 'a'
@@ -96,6 +97,22 @@ decode :: Int -> String -> String
 decode n s = [shift (26 - n) c | c <- s]
  
 -- Q7
+get_dict :: IO ()
+get_dict = do
+    pride <- readFile "pride.txt"
+    ulysses <- readFile "ulysses.txt"
+    dorian <- readFile "dorian.txt"
+    writeFile "dict.txt" (unwords (toList (fromList (words pride ++ words ulysses ++ words dorian))))
+
+guess_index :: String -> IO ()
+guess_index f = do
+    encrypted <- readFile f
+    dict <- readFile "dict.txt"
+    -- The best match is the cypher with the most words in the intersection of the input set and dictionary set
+    best_match encrypted (maximum [(length (intersection (fromList( words (decode x encrypted))) (fromList( words (dict)))), x) | x <- [1..26]])
+
+best_match :: String -> (Int, Int) -> IO ()
+best_match f (a,b) = writeFile "decrypted.txt" (decode b f)
 
 -- Q8
 -- Test with n = 1000 (n is the intervals between 0 and 1)
@@ -124,5 +141,3 @@ integral func x1 x2 n
 
 f :: Float -> Float
 f x = 0.5 * x
-
-
