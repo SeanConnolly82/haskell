@@ -1,3 +1,4 @@
+-- Sean Connolly D20124903
 import Data.Char
 import Data.Set
 import System.IO
@@ -114,7 +115,9 @@ guess_index f = do
     best_match encrypted (maximum [(length (intersection (fromList( words (decode x encrypted))) (fromList( words (dict)))), x) | x <- [1..26]])
 
 best_match :: String -> (Int, Int) -> IO ()
-best_match f (a,b) = writeFile "decrypted.txt" (decode b f)
+best_match f (a,b) = do
+    writeFile "decrypted.txt" (decode b f)
+    print "The decrypted file is saved as 'decrypted.txt'"
 
 -- Q8
 -- Test with n = 1000 (n is the intervals between 0 and 1)
